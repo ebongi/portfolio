@@ -6,7 +6,7 @@ export const PROJECTS = [
     slug: 'gostudy',
     name: 'GoStudy',
     tagline: 'An all-in-one academic platform for university students',
-    thumbnail: '/assets/gostudy-home.png',
+    thumbnail: '/assets/gostudy-icon.svg',
     status: 'In active release',
     role: 'Sole engineer & designer',
     platform: 'Android & iOS — one Flutter codebase',

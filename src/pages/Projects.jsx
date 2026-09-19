@@ -18,6 +18,7 @@ export default function Projects() {
         links={[
           { to: '/', label: 'Home' },
           { href: '/#about', label: 'The Craft' },
+          { to: '/timeline', label: 'Timeline' },
           { href: '/#contact', label: 'Contact' },
         ]}
       />
@@ -35,27 +36,27 @@ export default function Projects() {
       </header>
 
       <section style={{ padding: '0 clamp(20px,5vw,72px) clamp(90px,11vw,150px)', background: 'var(--ink-2)' }}>
-        <div style={{ maxWidth: 1240, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(340px,1fr))', gap: 'clamp(28px,3.5vw,44px)' }}>
+        <div style={{ maxWidth: 1240, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(200px,240px))', gap: 'clamp(18px,2.2vw,28px)' }}>
           {PROJECTS.map((project) => (
             <article className="card projectCard reveal" key={project.slug}>
               <div className="projectThumb">
                 <img src={project.thumbnail} alt={`${project.name} preview`} loading="lazy" />
               </div>
               <div className="projectBody">
-                <p className="kicker" style={{ margin: '0 0 12px' }}>{project.status}</p>
-                <h3 style={{ fontSize: 'clamp(22px,2.4vw,28px)', marginBottom: 12 }}>{project.name}</h3>
-                <p style={{ color: 'var(--silver)', margin: '0 0 20px' }}>{project.tagline}</p>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 26 }}>
+                <p className="kicker" style={{ margin: '0 0 8px', fontSize: 10 }}>{project.status}</p>
+                <h3 style={{ fontSize: 18, marginBottom: 8 }}>{project.name}</h3>
+                <p style={{ color: 'var(--silver)', margin: '0 0 14px', fontSize: 13.5, lineHeight: 1.5 }}>{project.tagline}</p>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 16 }}>
                   {project.tags.map((tag) => (
                     <span className="chip" key={tag}>{tag}</span>
                   ))}
                 </div>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 14 }}>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
                   {project.links.caseStudy && (
-                    <a href={project.links.caseStudy} className="gbtn" style={{ padding: '12px 22px' }}>Case Study</a>
+                    <a href={project.links.caseStudy} className="gbtn" style={{ padding: '9px 16px', fontSize: 11 }}>Case Study</a>
                   )}
                   {project.links.source && (
-                    <a href={project.links.source} target="_blank" rel="noopener noreferrer" className="gbtn ghost" style={{ padding: '12px 22px' }}>
+                    <a href={project.links.source} target="_blank" rel="noopener noreferrer" className="gbtn ghost" style={{ padding: '9px 16px', fontSize: 11 }}>
                       Source
                     </a>
                   )}

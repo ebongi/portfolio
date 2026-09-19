@@ -131,6 +131,7 @@ export default function Home() {
           { href: '#about', label: 'The Craft' },
           { href: '#flagship', label: 'Flagship' },
           { to: '/projects', label: 'Projects' },
+          { to: '/timeline', label: 'Timeline' },
           { href: '#contact', label: 'Contact' },
         ]}
       />
