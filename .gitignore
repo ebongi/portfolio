@@ -23,6 +23,3 @@ dist-ssr
 *.sln
 *.sw?
 
-# Copyrighted track used for local testing of the Timeline page's music —
-# do not commit/deploy without a license for public use.
-public/assets/audio/
