@@ -10,16 +10,18 @@ a:hover{color:var(--bronze)}
 .reveal{opacity:0;transform:translateY(30px);transition:opacity .9s cubic-bezier(.22,.61,.36,1),transform .9s cubic-bezier(.22,.61,.36,1)}
 .reveal.in{opacity:1;transform:none}
 
-/* Cinematic scroll-reveal variants for .reveal elements — pair with fx-* classes */
-.reveal.fx-cut{transform:none;transition:opacity 0s linear}
-.reveal.fx-fade{transform:none;transition:opacity 1.15s ease}
-.reveal.fx-dissolve{transform:scale(1.04);filter:blur(6px);transition:opacity 1.4s ease,transform 1.4s ease,filter 1.4s ease}
+/* Cinematic scroll-reveal variants for .reveal elements — pair with fx-* classes.
+   Durations are deliberately uneven (0.5s-2.4s) so a random pick still reads as
+   a distinct cut, not just a slow version of the same transition. */
+.reveal.fx-cut{transform:none;transition:opacity .5s ease}
+.reveal.fx-fade{transform:none;transition:opacity 1.9s ease}
+.reveal.fx-dissolve{transform:scale(1.04);filter:blur(6px);transition:opacity 2.4s ease,transform 2.4s ease,filter 2.4s ease}
 .reveal.fx-dissolve.in{transform:scale(1);filter:blur(0)}
-.reveal.fx-whip{transform:translateX(90px) skewX(-8deg);filter:blur(16px);transition:opacity .38s cubic-bezier(.55,0,.1,1),transform .38s cubic-bezier(.55,0,.1,1),filter .38s cubic-bezier(.55,0,.1,1)}
+.reveal.fx-whip{transform:translateX(90px) skewX(-8deg);filter:blur(16px);transition:opacity 1.1s cubic-bezier(.22,.61,.36,1),transform 1.1s cubic-bezier(.22,.61,.36,1),filter 1.1s cubic-bezier(.22,.61,.36,1)}
 .reveal.fx-whip.in{transform:none;filter:blur(0)}
-.reveal.fx-match{transform:scale(0.9);transition:opacity .55s cubic-bezier(.16,1,.3,1),transform .55s cubic-bezier(.16,1,.3,1)}
+.reveal.fx-match{transform:scale(0.9);transition:opacity 1.4s cubic-bezier(.16,1,.3,1),transform 1.4s cubic-bezier(.16,1,.3,1)}
 .reveal.fx-match.in{transform:scale(1)}
-.reveal.fx-wipe{opacity:1;transform:none;clip-path:inset(0 100% 0 0);transition:clip-path .85s cubic-bezier(.65,0,.35,1)}
+.reveal.fx-wipe{opacity:1;transform:none;clip-path:inset(0 100% 0 0);transition:clip-path 2.1s cubic-bezier(.65,0,.35,1)}
 .reveal.fx-wipe.in{clip-path:inset(0 0 0 0)}
 .kicker{font-family:var(--sans);font-size:11px;letter-spacing:0.32em;text-transform:uppercase;color:var(--gold);font-feature-settings:"tnum"}
 .rule{height:1px;border:0;background:linear-gradient(90deg,var(--line),rgba(212,175,55,0))}
@@ -69,10 +71,11 @@ a:hover{color:var(--bronze)}
 .projectCard:hover .projectThumb img{transform:scale(1.05)}
 .projectBody{padding:16px 18px 18px}
 .chip{display:inline-flex;align-items:center;font-family:var(--sans);font-size:10px;letter-spacing:0.05em;padding:4px 10px;border:1px solid var(--line-soft);color:var(--silver)}
-.timelineRow{cursor:default}
-.timelinePhotoHint{font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--bronze)}
-.timelinePreview{position:fixed;top:50%;left:50%;transform:translate(-50%,-46%);z-index:90;opacity:0;visibility:hidden;pointer-events:none;transition:opacity .35s cubic-bezier(.22,.61,.36,1),transform .35s cubic-bezier(.22,.61,.36,1),visibility .35s;max-width:min(92vw,760px);max-height:88vh}
-.timelineRow:hover .timelinePreview,.timelineRow:focus-within .timelinePreview{opacity:1;visibility:visible;transform:translate(-50%,-50%)}
-.timelinePreviewInner{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;align-content:flex-start;padding:18px;max-height:88vh;overflow-y:auto;background:linear-gradient(180deg,rgba(26,28,35,0.98),rgba(16,17,22,0.98));border:1px solid var(--line);box-shadow:0 30px 90px rgba(0,0,0,0.65)}
-.timelinePreviewInner img{max-width:min(42vw,340px);max-height:min(56vh,420px);width:auto;height:auto;object-fit:cover;border:1px solid var(--line-soft);display:block}
-@media (prefers-reduced-motion:reduce){.timelinePreview{transition:opacity .01s linear,visibility .01s}}
+.timelineEntry{display:grid;grid-template-columns:minmax(0,1fr);gap:clamp(32px,5vw,64px);align-items:center}
+.timelineEntry--withImages{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+.timelineGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:2px;background:var(--line);border:1px solid var(--line);overflow:hidden}
+.timelineGrid img{width:100%;height:100%;aspect-ratio:4/3;object-fit:cover;display:block;background:var(--surf)}
+@media (max-width:760px){
+  .timelineEntry--withImages{grid-template-columns:minmax(0,1fr)}
+  .timelineGrid{grid-template-columns:repeat(auto-fit,minmax(90px,1fr))}
+}

@@ -5,14 +5,30 @@ import { useReveal } from '../hooks/useReveal.js';
 import { useScrollChrome } from '../hooks/useScrollChrome.js';
 import { TIMELINE } from '../data/timeline.js';
 
-// Cycled per milestone so consecutive entries never repeat the same cut as they scroll in.
+// Picked randomly per milestone (never repeating the previous one back to back)
+// so entries scroll in with a mix of cuts rather than one consistent style.
 const TRANSITIONS = ['whip', 'match', 'dissolve', 'fade', 'cut', 'wipe'];
+
+function randomTransitions(count) {
+  const picks = [];
+  let prev = null;
+  for (let i = 0; i < count; i++) {
+    let choice;
+    do {
+      choice = TRANSITIONS[Math.floor(Math.random() * TRANSITIONS.length)];
+    } while (choice === prev);
+    picks.push(choice);
+    prev = choice;
+  }
+  return picks;
+}
 
 export default function Timeline() {
   const rootRef = useRef(null);
   const audioRef = useRef(null);
   const { navRef, toTopRef } = useScrollChrome();
   const [playing, setPlaying] = useState(true);
+  const [entryFx] = useState(() => randomTransitions(TIMELINE.length));
 
   useReveal(rootRef);
 
@@ -59,9 +75,9 @@ export default function Timeline() {
       </header>
 
       <section style={{ padding: '0 clamp(20px,5vw,72px) clamp(90px,11vw,150px)', background: 'var(--ink-2)' }}>
-        <div style={{ maxWidth: 900, margin: '0 auto' }}>
+        <div style={{ maxWidth: 1240, margin: '0 auto' }}>
           {TIMELINE.length === 0 ? (
-            <div className="card reveal" style={{ textAlign: 'center', padding: 'clamp(40px,6vw,64px)' }}>
+            <div className="card reveal" style={{ maxWidth: 900, margin: '0 auto', textAlign: 'center', padding: 'clamp(40px,6vw,64px)' }}>
               <p className="kicker" style={{ margin: '0 0 16px' }}>Coming Soon</p>
               <p style={{ color: 'var(--silver)', margin: 0 }}>
                 This page will fill in with milestones as the story gets added — drop entries into{' '}
@@ -69,46 +85,48 @@ export default function Timeline() {
               </p>
             </div>
           ) : (
-            <div
-              style={{
-                borderLeft: '1px solid var(--line)', paddingLeft: 'clamp(28px,4vw,48px)',
-                display: 'grid', gap: 'clamp(36px,5vw,56px)',
-              }}
-            >
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 'clamp(64px,8vw,100px)' }}>
               {TIMELINE.map((item, index) => {
                 const images = Array.isArray(item.image) ? item.image : item.image ? [item.image] : [];
+                const reversed = index % 2 === 1;
                 return (
                   <div
-                    className={`reveal fx-${TRANSITIONS[index % TRANSITIONS.length]} timelineRow`}
-                    style={{ position: 'relative' }}
+                    className={`reveal fx-${entryFx[index]} timelineEntry${images.length ? ' timelineEntry--withImages' : ''}`}
                     key={`${item.year}-${item.title}`}
-                    tabIndex={images.length ? 0 : undefined}
                   >
-                    <span
-                      style={{
-                        position: 'absolute', left: 'calc(-1 * clamp(28px,4vw,48px) - 5px)', top: 6,
-                        width: 9, height: 9, border: '1px solid var(--gold)', background: 'var(--ink-2)',
-                        transform: 'rotate(45deg)',
-                      }}
-                    />
-                    <div style={{ display: 'flex', alignItems: 'baseline', gap: 12, flexWrap: 'wrap', marginBottom: 10 }}>
-                      <p className="numeral" style={{ margin: 0 }}>{item.year}</p>
-                      {images.length > 0 && (
-                        <span className="mono timelinePhotoHint">
-                          {images.length > 1 ? `${images.length} photos` : 'Photo'} — hover to view
-                        </span>
-                      )}
-                    </div>
-                    <h3 style={{ fontSize: 22, marginBottom: 10 }}>{item.title}</h3>
-                    <p style={{ color: 'var(--silver)', margin: 0 }}>{item.body}</p>
-
-                    {images.length > 0 && (
-                      <div className="timelinePreview">
-                        <div className="timelinePreviewInner">
-                          {images.map((src, i) => (
-                            <img key={src + i} src={src} alt={`${item.title} — photo ${i + 1}`} loading="lazy" />
+                    <div style={{ order: reversed ? 2 : 1, maxWidth: images.length ? undefined : 720 }}>
+                      <p className="numeral" style={{ margin: '0 0 14px' }}>{item.year}</p>
+                      <h3 style={{ fontSize: 'clamp(28px,3.4vw,40px)', marginBottom: 18 }}>{item.title}</h3>
+                      {item.tags?.length > 0 && (
+                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, marginBottom: 20 }}>
+                          {item.tags.map((tag) => (
+                            <span className="chip" key={tag}>{tag}</span>
                           ))}
                         </div>
+                      )}
+                      <p style={{ color: 'var(--silver)', margin: item.link ? '0 0 22px' : 0 }}>{item.body}</p>
+                      {item.link && (
+                        <a
+                          href={item.link.href}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="mono"
+                          style={{
+                            display: 'inline-flex', alignItems: 'center', gap: 8, color: 'var(--gold)',
+                            textTransform: 'uppercase', letterSpacing: '0.1em', fontSize: 12,
+                            borderBottom: '1px solid rgba(212,175,55,0.35)', paddingBottom: 4,
+                          }}
+                        >
+                          {item.link.label} <span aria-hidden="true">↗</span>
+                        </a>
+                      )}
+                    </div>
+
+                    {images.length > 0 && (
+                      <div className="timelineGrid" style={{ order: reversed ? 1 : 2 }}>
+                        {images.map((src, i) => (
+                          <img key={src + i} src={src} alt={`${item.title} — photo ${i + 1}`} loading="lazy" />
+                        ))}
                       </div>
                     )}
                   </div>
