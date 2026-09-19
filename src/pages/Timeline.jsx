@@ -75,39 +75,45 @@ export default function Timeline() {
                 display: 'grid', gap: 'clamp(36px,5vw,56px)',
               }}
             >
-              {TIMELINE.map((item, index) => (
-                <div
-                  className={`reveal fx-${TRANSITIONS[index % TRANSITIONS.length]}`}
-                  style={{ position: 'relative' }}
-                  key={`${item.year}-${item.title}`}
-                >
-                  <span
-                    style={{
-                      position: 'absolute', left: 'calc(-1 * clamp(28px,4vw,48px) - 5px)', top: 6,
-                      width: 9, height: 9, border: '1px solid var(--gold)', background: 'var(--ink-2)',
-                      transform: 'rotate(45deg)',
-                    }}
-                  />
-                  <div style={{ display: 'flex', gap: 'clamp(20px,3vw,32px)', flexWrap: 'wrap', alignItems: 'flex-start' }}>
-                    {item.image && (
-                      <img
-                        src={item.image}
-                        alt={item.title}
-                        loading="lazy"
-                        style={{
-                          flex: 'none', width: 'clamp(140px,20vw,220px)', aspectRatio: '4/3',
-                          objectFit: 'cover', border: '1px solid var(--line)', background: 'var(--ink)',
-                        }}
-                      />
-                    )}
-                    <div style={{ flex: '1 1 260px', minWidth: 0 }}>
-                      <p className="numeral" style={{ margin: '0 0 10px' }}>{item.year}</p>
-                      <h3 style={{ fontSize: 22, marginBottom: 10 }}>{item.title}</h3>
-                      <p style={{ color: 'var(--silver)', margin: 0 }}>{item.body}</p>
+              {TIMELINE.map((item, index) => {
+                const images = Array.isArray(item.image) ? item.image : item.image ? [item.image] : [];
+                return (
+                  <div
+                    className={`reveal fx-${TRANSITIONS[index % TRANSITIONS.length]} timelineRow`}
+                    style={{ position: 'relative' }}
+                    key={`${item.year}-${item.title}`}
+                    tabIndex={images.length ? 0 : undefined}
+                  >
+                    <span
+                      style={{
+                        position: 'absolute', left: 'calc(-1 * clamp(28px,4vw,48px) - 5px)', top: 6,
+                        width: 9, height: 9, border: '1px solid var(--gold)', background: 'var(--ink-2)',
+                        transform: 'rotate(45deg)',
+                      }}
+                    />
+                    <div style={{ display: 'flex', alignItems: 'baseline', gap: 12, flexWrap: 'wrap', marginBottom: 10 }}>
+                      <p className="numeral" style={{ margin: 0 }}>{item.year}</p>
+                      {images.length > 0 && (
+                        <span className="mono timelinePhotoHint">
+                          {images.length > 1 ? `${images.length} photos` : 'Photo'} — hover to view
+                        </span>
+                      )}
                     </div>
+                    <h3 style={{ fontSize: 22, marginBottom: 10 }}>{item.title}</h3>
+                    <p style={{ color: 'var(--silver)', margin: 0 }}>{item.body}</p>
+
+                    {images.length > 0 && (
+                      <div className="timelinePreview">
+                        <div className="timelinePreviewInner">
+                          {images.map((src, i) => (
+                            <img key={src + i} src={src} alt={`${item.title} — photo ${i + 1}`} loading="lazy" />
+                          ))}
+                        </div>
+                      </div>
+                    )}
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           )}
         </div>

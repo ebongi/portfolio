@@ -69,3 +69,10 @@ a:hover{color:var(--bronze)}
 .projectCard:hover .projectThumb img{transform:scale(1.05)}
 .projectBody{padding:16px 18px 18px}
 .chip{display:inline-flex;align-items:center;font-family:var(--sans);font-size:10px;letter-spacing:0.05em;padding:4px 10px;border:1px solid var(--line-soft);color:var(--silver)}
+.timelineRow{cursor:default}
+.timelinePhotoHint{font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--bronze)}
+.timelinePreview{position:fixed;top:50%;left:50%;transform:translate(-50%,-46%);z-index:90;opacity:0;visibility:hidden;pointer-events:none;transition:opacity .35s cubic-bezier(.22,.61,.36,1),transform .35s cubic-bezier(.22,.61,.36,1),visibility .35s;max-width:min(92vw,760px);max-height:88vh}
+.timelineRow:hover .timelinePreview,.timelineRow:focus-within .timelinePreview{opacity:1;visibility:visible;transform:translate(-50%,-50%)}
+.timelinePreviewInner{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;align-content:flex-start;padding:18px;max-height:88vh;overflow-y:auto;background:linear-gradient(180deg,rgba(26,28,35,0.98),rgba(16,17,22,0.98));border:1px solid var(--line);box-shadow:0 30px 90px rgba(0,0,0,0.65)}
+.timelinePreviewInner img{max-width:min(42vw,340px);max-height:min(56vh,420px);width:auto;height:auto;object-fit:cover;border:1px solid var(--line-soft);display:block}
+@media (prefers-reduced-motion:reduce){.timelinePreview{transition:opacity .01s linear,visibility .01s}}
