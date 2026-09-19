@@ -1,15 +1,40 @@
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import SiteNav from '../components/SiteNav.jsx';
 import BackToTop from '../components/BackToTop.jsx';
 import { useReveal } from '../hooks/useReveal.js';
 import { useScrollChrome } from '../hooks/useScrollChrome.js';
 import { TIMELINE } from '../data/timeline.js';
 
+// Cycled per milestone so consecutive entries never repeat the same cut as they scroll in.
+const TRANSITIONS = ['whip', 'match', 'dissolve', 'fade', 'cut', 'wipe'];
+
 export default function Timeline() {
   const rootRef = useRef(null);
+  const audioRef = useRef(null);
   const { navRef, toTopRef } = useScrollChrome();
+  const [playing, setPlaying] = useState(true);
 
   useReveal(rootRef);
+
+  useEffect(() => {
+    const audio = audioRef.current;
+    audio.volume = 0.55;
+    audio.play().then(() => setPlaying(true)).catch(() => setPlaying(false));
+    return () => {
+      audio.pause();
+      audio.currentTime = 0;
+    };
+  }, []);
+
+  const toggleAudio = () => {
+    const audio = audioRef.current;
+    if (audio.paused) {
+      audio.play().then(() => setPlaying(true)).catch(() => setPlaying(false));
+    } else {
+      audio.pause();
+      setPlaying(false);
+    }
+  };
 
   return (
     <div ref={rootRef} style={{ position: 'relative', overflowX: 'hidden' }}>
@@ -50,8 +75,12 @@ export default function Timeline() {
                 display: 'grid', gap: 'clamp(36px,5vw,56px)',
               }}
             >
-              {TIMELINE.map((item) => (
-                <div className="reveal" style={{ position: 'relative' }} key={`${item.year}-${item.title}`}>
+              {TIMELINE.map((item, index) => (
+                <div
+                  className={`reveal fx-${TRANSITIONS[index % TRANSITIONS.length]}`}
+                  style={{ position: 'relative' }}
+                  key={`${item.year}-${item.title}`}
+                >
                   <span
                     style={{
                       position: 'absolute', left: 'calc(-1 * clamp(28px,4vw,48px) - 5px)', top: 6,
@@ -59,15 +88,45 @@ export default function Timeline() {
                       transform: 'rotate(45deg)',
                     }}
                   />
-                  <p className="numeral" style={{ margin: '0 0 10px' }}>{item.year}</p>
-                  <h3 style={{ fontSize: 22, marginBottom: 10 }}>{item.title}</h3>
-                  <p style={{ color: 'var(--silver)', margin: 0 }}>{item.body}</p>
+                  <div style={{ display: 'flex', gap: 'clamp(20px,3vw,32px)', flexWrap: 'wrap', alignItems: 'flex-start' }}>
+                    {item.image && (
+                      <img
+                        src={item.image}
+                        alt={item.title}
+                        loading="lazy"
+                        style={{
+                          flex: 'none', width: 'clamp(140px,20vw,220px)', aspectRatio: '4/3',
+                          objectFit: 'cover', border: '1px solid var(--line)', background: 'var(--ink)',
+                        }}
+                      />
+                    )}
+                    <div style={{ flex: '1 1 260px', minWidth: 0 }}>
+                      <p className="numeral" style={{ margin: '0 0 10px' }}>{item.year}</p>
+                      <h3 style={{ fontSize: 22, marginBottom: 10 }}>{item.title}</h3>
+                      <p style={{ color: 'var(--silver)', margin: 0 }}>{item.body}</p>
+                    </div>
+                  </div>
                 </div>
               ))}
             </div>
           )}
         </div>
       </section>
+
+      <audio ref={audioRef} src="/assets/audio/timeline-theme.mp3" loop preload="auto" />
+      <button
+        type="button"
+        aria-label={playing ? 'Pause music' : 'Play music'}
+        onClick={toggleAudio}
+        style={{
+          position: 'fixed', left: 'clamp(16px,3vw,34px)', bottom: 'clamp(16px,3vw,34px)', zIndex: 60,
+          width: 48, height: 48, display: 'grid', placeItems: 'center', border: '1px solid var(--line)',
+          background: 'rgba(26,28,35,0.8)', backdropFilter: 'blur(8px)', color: 'var(--gold)', fontSize: 15,
+          cursor: 'pointer', transition: 'background .3s ease',
+        }}
+      >
+        {playing ? '❚❚' : '▶'}
+      </button>
 
       <BackToTop toTopRef={toTopRef} />
     </div>
