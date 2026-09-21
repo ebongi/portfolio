@@ -23,12 +23,135 @@ function randomTransitions(count) {
   return picks;
 }
 
+// A single photo renders as a static plate; more than one auto-advances as a
+// crossfading slideshow with dot indicators and hover-revealed arrows. Clicking
+// any photo hands it up to the page-level Lightbox for a full-size view.
+function TimelineGallery({ images, alt, onOpen }) {
+  const [index, setIndex] = useState(0);
+  const count = images.length;
+
+  useEffect(() => {
+    if (count < 2) return undefined;
+    const id = setInterval(() => setIndex((i) => (i + 1) % count), 4500);
+    return () => clearInterval(id);
+  }, [count]);
+
+  if (count === 1) {
+    return (
+      <div className="timelineGrid">
+        <img
+          src={images[0]}
+          alt={alt}
+          loading="lazy"
+          className="timelineZoomable"
+          onClick={() => onOpen(0)}
+        />
+      </div>
+    );
+  }
+
+  return (
+    <div className="timelineSlideshow">
+      {images.map((src, i) => (
+        <img
+          key={src}
+          src={src}
+          alt={`${alt} — photo ${i + 1} of ${count}`}
+          loading="lazy"
+          className="timelineSlide timelineZoomable"
+          style={{ opacity: i === index ? 1 : 0, pointerEvents: i === index ? 'auto' : 'none' }}
+          onClick={() => onOpen(i)}
+        />
+      ))}
+      <button
+        type="button"
+        aria-label="Previous photo"
+        className="timelineSlideNav timelineSlideNav--prev"
+        onClick={() => setIndex((i) => (i - 1 + count) % count)}
+      >
+        ‹
+      </button>
+      <button
+        type="button"
+        aria-label="Next photo"
+        className="timelineSlideNav timelineSlideNav--next"
+        onClick={() => setIndex((i) => (i + 1) % count)}
+      >
+        ›
+      </button>
+      <div className="timelineSlideDots">
+        {images.map((_, i) => (
+          <button
+            key={i}
+            type="button"
+            aria-label={`Go to photo ${i + 1}`}
+            className={`timelineSlideDot${i === index ? ' is-active' : ''}`}
+            onClick={() => setIndex(i)}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// Full-size photo viewer. Escape or a click on the backdrop closes it; arrow
+// keys (or the on-screen arrows) step through the entry's own photo set.
+function Lightbox({ images, index, alt, onClose, onNavigate }) {
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    const onKey = (e) => {
+      if (e.key === 'Escape') onClose();
+      if (e.key === 'ArrowLeft' && images.length > 1) onNavigate(-1);
+      if (e.key === 'ArrowRight' && images.length > 1) onNavigate(1);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => {
+      document.body.style.overflow = '';
+      window.removeEventListener('keydown', onKey);
+    };
+  }, [images.length, onClose, onNavigate]);
+
+  return (
+    <div className="lightbox" role="dialog" aria-modal="true" aria-label={alt} onClick={onClose}>
+      <button type="button" aria-label="Close photo viewer" className="lightboxClose" onClick={onClose}>✕</button>
+      {images.length > 1 && (
+        <>
+          <button
+            type="button"
+            aria-label="Previous photo"
+            className="lightboxNav lightboxNav--prev"
+            onClick={(e) => { e.stopPropagation(); onNavigate(-1); }}
+          >
+            ‹
+          </button>
+          <button
+            type="button"
+            aria-label="Next photo"
+            className="lightboxNav lightboxNav--next"
+            onClick={(e) => { e.stopPropagation(); onNavigate(1); }}
+          >
+            ›
+          </button>
+          <p className="mono lightboxCount">{index + 1} / {images.length}</p>
+        </>
+      )}
+      <img
+        src={images[index]}
+        alt={`${alt} — photo ${index + 1} of ${images.length}`}
+        className="lightboxImg"
+        onClick={(e) => e.stopPropagation()}
+      />
+    </div>
+  );
+}
+
 export default function Timeline() {
   const rootRef = useRef(null);
   const audioRef = useRef(null);
   const { navRef, toTopRef } = useScrollChrome();
   const [playing, setPlaying] = useState(true);
   const [entryFx] = useState(() => randomTransitions(TIMELINE.length));
+  const [lightbox, setLightbox] = useState(null);
 
   useReveal(rootRef);
 
@@ -123,10 +246,12 @@ export default function Timeline() {
                     </div>
 
                     {images.length > 0 && (
-                      <div className="timelineGrid" style={{ order: reversed ? 1 : 2 }}>
-                        {images.map((src, i) => (
-                          <img key={src + i} src={src} alt={`${item.title} — photo ${i + 1}`} loading="lazy" />
-                        ))}
+                      <div style={{ order: reversed ? 1 : 2 }}>
+                        <TimelineGallery
+                          images={images}
+                          alt={item.title}
+                          onOpen={(i) => setLightbox({ images, index: i, alt: item.title })}
+                        />
                       </div>
                     )}
                   </div>
@@ -153,6 +278,18 @@ export default function Timeline() {
       </button>
 
       <BackToTop toTopRef={toTopRef} />
+
+      {lightbox && (
+        <Lightbox
+          images={lightbox.images}
+          index={lightbox.index}
+          alt={lightbox.alt}
+          onClose={() => setLightbox(null)}
+          onNavigate={(dir) =>
+            setLightbox((lb) => ({ ...lb, index: (lb.index + dir + lb.images.length) % lb.images.length }))
+          }
+        />
+      )}
     </div>
   );
 }
