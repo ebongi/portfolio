@@ -2,8 +2,11 @@ import { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import SiteNav from '../components/SiteNav.jsx';
 import BackToTop from '../components/BackToTop.jsx';
+import Footer from '../components/Footer.jsx';
 import { useReveal } from '../hooks/useReveal.js';
 import { useScrollChrome } from '../hooks/useScrollChrome.js';
+import { useTheme } from '../hooks/useTheme.js';
+import { SERVICES } from '../data/services.js';
 
 const SKILLS = [
   { name: 'Flutter', note: 'Cross-platform UI, custom render pipelines, 60fps motion.' },
@@ -14,6 +17,81 @@ const SKILLS = [
   { name: 'SQLite', note: 'Local relational cache, migrations and offline-first queries.' },
   { name: 'Node.js', note: 'REST and realtime services, background jobs, clean service layers.' },
   { name: 'Git', note: 'Trunk-based flow, reviewed PRs, small legible commits.' },
+];
+
+const PROCESS = [
+  {
+    num: '01',
+    title: 'Discovery',
+    body: 'Understand the problem, the users and the constraints before writing a line of code — requirements, stakeholder conversations and technical feasibility.',
+  },
+  {
+    num: '02',
+    title: 'Planning',
+    body: 'Turn requirements into a roadmap — architecture decisions, tech stack choices, and milestones against a realistic timeline.',
+  },
+  {
+    num: '03',
+    title: 'Design',
+    body: 'Wireframes, data models and system architecture — the shape of the software gets decided before a single screen is built.',
+  },
+  {
+    num: '04',
+    title: 'Prototyping',
+    body: 'Clickable flows or throwaway builds that test the riskiest assumptions early, before real development time is spent on them.',
+  },
+  {
+    num: '05',
+    title: 'Development',
+    body: 'Iterative, tested builds in short cycles, with visible progress and a working milestone the client can see at every step.',
+  },
+  {
+    num: '06',
+    title: 'Testing & QA',
+    body: 'Manual and automated coverage across edge cases, performance and real devices, before anything reaches a real user.',
+  },
+  {
+    num: '07',
+    title: 'Deployment',
+    body: 'Store submissions, CI/CD pipelines and staged rollouts — shipping in a way that stays reversible if something goes wrong.',
+  },
+  {
+    num: '08',
+    title: 'Documentation & Handoff',
+    body: 'Architecture notes, setup guides and inline comments that let another engineer — or future me — pick the project up cold.',
+  },
+  {
+    num: '09',
+    title: 'Support & Iteration',
+    body: 'Monitoring, bug triage and new features once real users are on the product — the work doesn’t stop at launch.',
+  },
+];
+
+const WHY_ME = [
+  {
+    title: 'Ships end-to-end, solo',
+    body: 'Sole engineer and designer on GoStudy, from the first architecture decision to a live Play Store listing — comfortable owning a product, not just a ticket.',
+  },
+  {
+    title: 'Built for real-world conditions',
+    body: 'Offline-first by discipline: GoStudy answers instantly on patchy campus wifi and shared devices, not just on a fast office connection.',
+  },
+  {
+    title: 'Native or cross-platform, by need',
+    body: 'Flutter and Dart for shared reach, native Java/Kotlin when a feature needs the platform directly — the tool follows the requirement, not the other way round.',
+  },
+  {
+    title: 'At home in someone else’s codebase',
+    body: 'Comfortable auditing undocumented legacy systems and shipping safe changes under real users, not just building from a blank repo.',
+  },
+  {
+    title: 'Process without the overhead',
+    body: 'Small legible commits, reviewed PRs and clear documentation — enough discipline to keep scope honest without slowing delivery down.',
+  },
+  {
+    title: 'Still learning, on purpose',
+    body: 'Each project is a chance to retire an old assumption — reading source, rebuilding patterns by hand, and prototyping ideas before they reach production code.',
+  },
 ];
 
 const TECH_ICONS = [
@@ -97,6 +175,7 @@ export default function Home() {
   const rootRef = useRef(null);
   const heroBgRef = useRef(null);
   const { navRef, toTopRef } = useScrollChrome(heroBgRef);
+  const { theme, toggleTheme } = useTheme();
 
   const [selectedSkill, setSelectedSkill] = useState(null);
   const [form, setForm] = useState({ name: '', email: '', message: '' });
@@ -124,8 +203,13 @@ export default function Home() {
     <div ref={rootRef} style={{ position: 'relative', overflowX: 'hidden' }}>
       <SiteNav
         navRef={navRef}
+        theme={theme}
+        onToggleTheme={toggleTheme}
         links={[
           { href: '#about', label: 'The Craft' },
+          { href: '#services', label: 'Services' },
+          { href: '#process', label: 'Process' },
+          { href: '#why', label: 'Why Me' },
           { to: '/projects/gostudy', label: 'Flagship' },
           { to: '/projects', label: 'Projects' },
           { to: '/timeline', label: 'Timeline' },
@@ -140,7 +224,7 @@ export default function Home() {
           padding: '140px clamp(20px,5vw,72px) 130px', isolation: 'isolate',
         }}
       >
-        <div ref={heroBgRef} id="heroBg" style={{ position: 'absolute', inset: '-12% 0', zIndex: -2, willChange: 'transform', background: 'var(--ink)' }}>
+        <div ref={heroBgRef} id="heroBg" style={{ position: 'absolute', inset: '-12% 0', zIndex: -2, willChange: 'transform', background: '#0C0D10' }}>
           <img
             id="heroImg"
             src="/assets/hero.png"
@@ -159,19 +243,19 @@ export default function Home() {
             position: 'absolute', inset: 0, zIndex: -1, pointerEvents: 'none',
             background:
               'linear-gradient(90deg,rgba(12,13,16,0.85) 0%,rgba(12,13,16,0.55) 55%,rgba(12,13,16,0.28) 100%),' +
-              'linear-gradient(180deg,rgba(12,13,16,0.7),rgba(12,13,16,0.35) 45%,var(--ink))',
+              'linear-gradient(180deg,rgba(12,13,16,0.7),rgba(12,13,16,0.35) 45%,#0C0D10)',
           }}
         />
         <div style={{ maxWidth: 1000, margin: '0 auto', width: '100%' }}>
           <p className="kicker reveal" style={{ margin: '0 0 26px' }}>Chapter I — Introduction</p>
-          <h1 className="reveal" style={{ fontSize: 'clamp(42px,7.4vw,96px)', letterSpacing: '0.02em', marginBottom: 22 }}>Ebong Sume</h1>
+          <h1 className="reveal" style={{ fontSize: 'clamp(42px,7.4vw,96px)', letterSpacing: '0.02em', marginBottom: 22, color: '#F7F6F0' }}>Ebong Sume</h1>
           <div className="reveal" style={{ display: 'flex', alignItems: 'center', gap: 20, marginBottom: 30 }}>
-            <span style={{ width: 56, height: 1, background: 'var(--gold)', flex: 'none' }} />
-            <h2 style={{ fontFamily: 'var(--serif)', fontWeight: 300, fontStyle: 'italic', fontSize: 'clamp(20px,2.6vw,30px)', color: 'var(--cream)' }}>
+            <span style={{ width: 56, height: 1, background: '#D4AF37', flex: 'none' }} />
+            <h2 style={{ fontFamily: 'var(--serif)', fontWeight: 300, fontStyle: 'italic', fontSize: 'clamp(20px,2.6vw,30px)', color: '#F7F6F0' }}>
               Mobile Application &amp; Software Engineer
             </h2>
           </div>
-          <p className="reveal" style={{ maxWidth: 660, fontSize: 'clamp(17px,1.5vw,20px)', color: 'var(--silver)', margin: '0 0 44px' }}>
+          <p className="reveal" style={{ maxWidth: 660, fontSize: 'clamp(17px,1.5vw,20px)', color: '#A0A5B5', margin: '0 0 44px' }}>
             Building high-performance, cross-platform mobile apps with Flutter &amp; Dart, coupled with scalable database
             architectures and clean software systems.
           </p>
@@ -186,11 +270,11 @@ export default function Home() {
           style={{
             position: 'absolute', left: '50%', bottom: 34, transform: 'translateX(-50%)',
             display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10,
-            fontSize: 10, letterSpacing: '0.3em', textTransform: 'uppercase', color: 'var(--silver)',
+            fontSize: 10, letterSpacing: '0.3em', textTransform: 'uppercase', color: '#A0A5B5',
           }}
         >
           Scroll
-          <span style={{ width: 1, height: 46, background: 'linear-gradient(180deg,var(--gold),rgba(212,175,55,0))' }} />
+          <span style={{ width: 1, height: 46, background: 'linear-gradient(180deg,#D4AF37,rgba(212,175,55,0))' }} />
         </div>
       </header>
 
@@ -207,7 +291,7 @@ export default function Home() {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(300px,1fr))', gap: 'clamp(36px,5vw,80px)', alignItems: 'start' }}>
             <figure
               className="reveal"
-              style={{ margin: 0, position: 'relative', padding: 22, background: 'linear-gradient(145deg,rgba(26,28,35,0.95),rgba(12,13,16,0.9))', border: '1px solid var(--line)' }}
+              style={{ margin: 0, position: 'relative', padding: 22, background: 'linear-gradient(145deg,rgba(var(--surf-rgb),0.95),rgba(var(--ink-rgb),0.9))', border: '1px solid var(--line)' }}
             >
               <div className="plate" style={{ aspectRatio: '4/5' }}>
                 <img src="/assets/headshot.png" alt="Ebong Sume portrait" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
@@ -293,15 +377,96 @@ export default function Home() {
         </div>
       </section>
 
+      <section
+        id="services"
+        style={{ position: 'relative', padding: 'clamp(80px,11vw,150px) clamp(20px,5vw,72px)', background: 'var(--ink-2)' }}
+      >
+        <div style={{ maxWidth: 1240, margin: '0 auto' }}>
+          <div className="chapterhead reveal" style={{ marginBottom: 18 }}>
+            <span className="numeral">III</span>
+            <h2 style={{ fontSize: 'clamp(30px,4.2vw,54px)' }}>Services &amp; Capabilities</h2>
+          </div>
+          <hr className="rule reveal" style={{ margin: '0 0 clamp(44px,5vw,70px)' }} />
+          <p className="reveal" style={{ maxWidth: 720, color: 'var(--silver)', fontSize: 'clamp(17px,1.4vw,19px)', margin: '0 0 clamp(48px,6vw,80px)' }}>
+            The work I take on end-to-end — from a native Android feature to a full SaaS product — and the disciplines
+            each one leans on.
+          </p>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(260px,1fr))', gap: 20 }}>
+            {SERVICES.map((item) => (
+              <Link to={`/services/${item.slug}`} className="card reveal" key={item.slug}>
+                <p className="numeral" style={{ margin: '0 0 14px' }}>{item.num}</p>
+                <h4 style={{ fontSize: 20, marginBottom: 10, color: 'var(--cream)' }}>{item.title}</h4>
+                <p className="mono" style={{ margin: 0, lineHeight: 1.7 }}>{item.body}</p>
+                <p className="mono" style={{ margin: '18px 0 0', color: 'var(--gold)', fontSize: 11, letterSpacing: '0.14em', textTransform: 'uppercase' }}>
+                  How I implement this &rarr;
+                </p>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section
+        id="process"
+        style={{ position: 'relative', padding: 'clamp(80px,11vw,150px) clamp(20px,5vw,72px)', background: 'var(--ink-2)', borderTop: '1px solid var(--line-soft)' }}
+      >
+        <div style={{ maxWidth: 1240, margin: '0 auto' }}>
+          <div className="chapterhead reveal" style={{ marginBottom: 18 }}>
+            <span className="numeral">IV</span>
+            <h2 style={{ fontSize: 'clamp(30px,4.2vw,54px)' }}>Development Process</h2>
+          </div>
+          <hr className="rule reveal" style={{ margin: '0 0 clamp(44px,5vw,70px)' }} />
+          <p className="reveal" style={{ maxWidth: 720, color: 'var(--silver)', fontSize: 'clamp(17px,1.4vw,19px)', margin: '0 0 clamp(48px,6vw,80px)' }}>
+            The same six stages, every project — enough structure to keep scope honest, light enough to stay fast.
+          </p>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(220px,1fr))', gap: 20 }}>
+            {PROCESS.map((step) => (
+              <div className="card reveal" key={step.num}>
+                <p className="numeral" style={{ margin: '0 0 14px' }}>{step.num}</p>
+                <h4 style={{ fontSize: 19, marginBottom: 10 }}>{step.title}</h4>
+                <p className="mono" style={{ margin: 0, lineHeight: 1.7 }}>{step.body}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section
+        id="why"
+        style={{ position: 'relative', padding: 'clamp(80px,11vw,150px) clamp(20px,5vw,72px)', background: 'var(--ink-2)', borderTop: '1px solid var(--line-soft)' }}
+      >
+        <div style={{ maxWidth: 1240, margin: '0 auto' }}>
+          <div className="chapterhead reveal" style={{ marginBottom: 18 }}>
+            <span className="numeral">V</span>
+            <h2 style={{ fontSize: 'clamp(30px,4.2vw,54px)' }}>Why Work With Me</h2>
+          </div>
+          <hr className="rule reveal" style={{ margin: '0 0 clamp(44px,5vw,70px)' }} />
+          <p className="reveal" style={{ maxWidth: 720, color: 'var(--silver)', fontSize: 'clamp(17px,1.4vw,19px)', margin: '0 0 clamp(48px,6vw,80px)' }}>
+            What a team actually gets, beyond the tech stack.
+          </p>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(280px,1fr))', gap: 20 }}>
+            {WHY_ME.map((item) => (
+              <div className="card reveal" key={item.title} style={{ display: 'flex', gap: 18, alignItems: 'flex-start' }}>
+                <span style={{ flex: 'none', width: 9, height: 9, marginTop: 9, border: '1px solid var(--gold)', transform: 'rotate(45deg)' }} />
+                <div>
+                  <h4 style={{ fontSize: 20, marginBottom: 8 }}>{item.title}</h4>
+                  <p className="mono" style={{ margin: 0, lineHeight: 1.7 }}>{item.body}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <section id="contact" style={{ padding: 'clamp(80px,11vw,150px) clamp(20px,5vw,72px) 70px', background: 'linear-gradient(180deg,var(--ink-2),var(--ink))' }}>
         <div
           className="reveal"
           style={{
             maxWidth: 780, margin: '0 auto', padding: 'clamp(32px,5vw,64px)', textAlign: 'center',
-            border: '1px solid var(--line)', background: 'linear-gradient(180deg,rgba(26,28,35,0.8),rgba(12,13,16,0.8))', backdropFilter: 'blur(8px)',
+            border: '1px solid var(--line)', background: 'linear-gradient(180deg,rgba(var(--surf-rgb),0.8),rgba(var(--ink-rgb),0.8))', backdropFilter: 'blur(8px)',
           }}
         >
-          <p className="kicker" style={{ margin: '0 0 20px' }}>Chapter III — The Seal</p>
+          <p className="kicker" style={{ margin: '0 0 20px' }}>Chapter VI — The Seal</p>
           <h2 style={{ fontSize: 'clamp(28px,3.8vw,46px)', marginBottom: 18 }}>Let&rsquo;s build something durable</h2>
           <p style={{ color: 'var(--silver)', maxWidth: 520, margin: '0 auto 40px' }}>
             Open to mobile engineering roles, contract work and collaborations where architecture matters as much as
@@ -338,11 +503,9 @@ export default function Home() {
             <a href="mailto:sumeebong7@gmail.com" className="mono" style={{ letterSpacing: '0.18em', textTransform: 'uppercase', fontSize: 11 }}>sumeebong7@gmail.com</a>
           </div>
         </div>
-        <p className="mono" style={{ textAlign: 'center', margin: '56px 0 0', fontSize: 11, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'var(--silver)' }}>
-          © MMXXVI · Ebong Sume · Built with Flutter, Dart &amp; patience
-        </p>
       </section>
 
+      <Footer />
       <BackToTop toTopRef={toTopRef} />
     </div>
   );

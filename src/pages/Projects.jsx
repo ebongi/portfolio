@@ -2,13 +2,16 @@ import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import SiteNav from '../components/SiteNav.jsx';
 import BackToTop from '../components/BackToTop.jsx';
+import Footer from '../components/Footer.jsx';
 import { useReveal } from '../hooks/useReveal.js';
 import { useScrollChrome } from '../hooks/useScrollChrome.js';
+import { useTheme } from '../hooks/useTheme.js';
 import { PROJECTS } from '../data/projects.js';
 
 export default function Projects() {
   const rootRef = useRef(null);
   const { navRef, toTopRef } = useScrollChrome();
+  const { theme, toggleTheme } = useTheme();
 
   useReveal(rootRef);
 
@@ -16,6 +19,8 @@ export default function Projects() {
     <div ref={rootRef} style={{ position: 'relative', overflowX: 'hidden' }}>
       <SiteNav
         navRef={navRef}
+        theme={theme}
+        onToggleTheme={toggleTheme}
         links={[
           { to: '/', label: 'Home' },
           { href: '/#about', label: 'The Craft' },
@@ -69,6 +74,7 @@ export default function Projects() {
         </div>
       </section>
 
+      <Footer />
       <BackToTop toTopRef={toTopRef} />
     </div>
   );

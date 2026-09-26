@@ -1,8 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
 import SiteNav from '../components/SiteNav.jsx';
 import BackToTop from '../components/BackToTop.jsx';
+import Footer from '../components/Footer.jsx';
 import { useReveal } from '../hooks/useReveal.js';
 import { useScrollChrome } from '../hooks/useScrollChrome.js';
+import { useTheme } from '../hooks/useTheme.js';
 import { TIMELINE } from '../data/timeline.js';
 
 // Picked randomly per milestone (never repeating the previous one back to back)
@@ -149,6 +151,7 @@ export default function Timeline() {
   const rootRef = useRef(null);
   const audioRef = useRef(null);
   const { navRef, toTopRef } = useScrollChrome();
+  const { theme, toggleTheme } = useTheme();
   const [playing, setPlaying] = useState(true);
   const [entryFx] = useState(() => randomTransitions(TIMELINE.length));
   const [lightbox, setLightbox] = useState(null);
@@ -179,6 +182,8 @@ export default function Timeline() {
     <div ref={rootRef} style={{ position: 'relative', overflowX: 'hidden' }}>
       <SiteNav
         navRef={navRef}
+        theme={theme}
+        onToggleTheme={toggleTheme}
         links={[
           { to: '/', label: 'Home' },
           { to: '/projects', label: 'Projects' },
@@ -270,13 +275,14 @@ export default function Timeline() {
         style={{
           position: 'fixed', left: 'clamp(16px,3vw,34px)', bottom: 'clamp(16px,3vw,34px)', zIndex: 60,
           width: 48, height: 48, display: 'grid', placeItems: 'center', border: '1px solid var(--line)',
-          background: 'rgba(26,28,35,0.8)', backdropFilter: 'blur(8px)', color: 'var(--gold)', fontSize: 15,
+          background: 'rgba(var(--surf-rgb),0.8)', backdropFilter: 'blur(8px)', color: 'var(--gold)', fontSize: 15,
           cursor: 'pointer', transition: 'background .3s ease',
         }}
       >
         {playing ? '❚❚' : '▶'}
       </button>
 
+      <Footer />
       <BackToTop toTopRef={toTopRef} />
 
       {lightbox && (

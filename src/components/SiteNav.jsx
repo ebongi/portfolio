@@ -3,8 +3,9 @@ import { Link } from 'react-router-dom';
 // Fixed top nav shared by every page. `navRef` comes from useScrollChrome so the
 // same scroll listener drives its shrink/blur transition. Each entry in `links` is
 // either { to, label } for an in-app route (SPA nav via Link) or { href, label } for
-// a same-page anchor or a hash link into another route (e.g. "/#contact").
-export default function SiteNav({ navRef, links }) {
+// a same-page anchor or a hash link into another route (e.g. "/#contact"). `theme`
+// and `onToggleTheme` come from useTheme and render the light/dark switch.
+export default function SiteNav({ navRef, links, theme, onToggleTheme }) {
   return (
     <nav
       ref={navRef}
@@ -38,6 +39,14 @@ export default function SiteNav({ navRef, links }) {
             </a>
           )
         )}
+        <button
+          type="button"
+          className="themeToggle"
+          onClick={onToggleTheme}
+          aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+        >
+          {theme === 'dark' ? '☀' : '☾'}
+        </button>
       </div>
     </nav>
   );
