@@ -1,4 +1,5 @@
 import { useRef } from 'react';
+import { Link } from 'react-router-dom';
 import SiteNav from '../components/SiteNav.jsx';
 import BackToTop from '../components/BackToTop.jsx';
 import { useReveal } from '../hooks/useReveal.js';
@@ -39,9 +40,9 @@ export default function Projects() {
         <div style={{ maxWidth: 1240, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(200px,240px))', gap: 'clamp(18px,2.2vw,28px)' }}>
           {PROJECTS.map((project) => (
             <article className="card projectCard reveal" key={project.slug}>
-              <div className="projectThumb">
+              <Link to={`/projects/${project.slug}`} className="projectThumb">
                 <img src={project.thumbnail} alt={`${project.name} preview`} loading="lazy" />
-              </div>
+              </Link>
               <div className="projectBody">
                 <p className="kicker" style={{ margin: '0 0 8px', fontSize: 10 }}>{project.status}</p>
                 <h3 style={{ fontSize: 18, marginBottom: 8 }}>{project.name}</h3>
@@ -52,9 +53,10 @@ export default function Projects() {
                   ))}
                 </div>
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
-                  {project.links.caseStudy && (
-                    <a href={project.links.caseStudy} className="gbtn" style={{ padding: '9px 16px', fontSize: 11 }}>Case Study</a>
+                  {project.links.playStore && (
+                    <a href={project.links.playStore} target="_blank" rel="noopener noreferrer" className="gbtn" style={{ padding: '9px 16px', fontSize: 11 }}>Play Store</a>
                   )}
+                  <Link to={`/projects/${project.slug}`} className="gbtn ghost" style={{ padding: '9px 16px', fontSize: 11 }}>Case Study</Link>
                   {project.links.source && (
                     <a href={project.links.source} target="_blank" rel="noopener noreferrer" className="gbtn ghost" style={{ padding: '9px 16px', fontSize: 11 }}>
                       Source

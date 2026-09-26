@@ -4,9 +4,6 @@ import SiteNav from '../components/SiteNav.jsx';
 import BackToTop from '../components/BackToTop.jsx';
 import { useReveal } from '../hooks/useReveal.js';
 import { useScrollChrome } from '../hooks/useScrollChrome.js';
-import { PROJECTS } from '../data/projects.js';
-
-const gostudy = PROJECTS.find((p) => p.slug === 'gostudy');
 
 const SKILLS = [
   { name: 'Flutter', note: 'Cross-platform UI, custom render pipelines, 60fps motion.' },
@@ -129,7 +126,7 @@ export default function Home() {
         navRef={navRef}
         links={[
           { href: '#about', label: 'The Craft' },
-          { href: '#flagship', label: 'Flagship' },
+          { to: '/projects/gostudy', label: 'Flagship' },
           { to: '/projects', label: 'Projects' },
           { to: '/timeline', label: 'Timeline' },
           { href: '#contact', label: 'Contact' },
@@ -180,7 +177,7 @@ export default function Home() {
           </p>
           <div className="reveal" style={{ display: 'flex', flexWrap: 'wrap', gap: 16 }}>
             <Link to="/projects" className="gbtn">Explore My Work</Link>
-            <a href="#flagship" className="gbtn ghost">View GoStudy Flagship</a>
+            <Link to="/projects/gostudy" className="gbtn ghost">View GoStudy Flagship</Link>
           </div>
         </div>
         <div
@@ -296,90 +293,6 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="flagship" style={{ padding: 'clamp(80px,11vw,150px) clamp(20px,5vw,72px)', background: 'var(--ink-2)', borderTop: '1px solid var(--line-soft)' }}>
-        <div style={{ maxWidth: 1240, margin: '0 auto' }}>
-          <div className="chapterhead reveal" style={{ marginBottom: 18 }}>
-            <span className="numeral">III</span>
-            <h2 style={{ fontSize: 'clamp(30px,4.2vw,54px)' }}>Flagship Showcase — {gostudy.name}</h2>
-          </div>
-          <hr className="rule reveal" style={{ margin: '0 0 clamp(44px,5vw,70px)' }} />
-          <div
-            className="card reveal"
-            style={{ padding: 'clamp(28px,4vw,56px)', display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(280px,1fr))', gap: 'clamp(28px,4vw,56px)', alignItems: 'start' }}
-          >
-            <div>
-              <p className="kicker" style={{ margin: '0 0 14px' }}>Overview</p>
-              <h3 style={{ fontSize: 'clamp(26px,3vw,38px)', marginBottom: 20 }}>{gostudy.tagline}</h3>
-              <p style={{ color: 'var(--silver)', margin: 0 }}>{gostudy.overview}</p>
-            </div>
-            <dl style={{ margin: 0, display: 'grid', gap: 0, borderLeft: '1px solid var(--line)', paddingLeft: 'clamp(20px,3vw,36px)' }}>
-              {[
-                ['Role', gostudy.role],
-                ['Platform', gostudy.platform],
-                ['Architecture', gostudy.architecture],
-                ['Status', gostudy.status],
-              ].map(([term, value], i, arr) => (
-                <div
-                  key={term}
-                  style={{
-                    display: 'flex', justifyContent: 'space-between', gap: 20, padding: '14px 0',
-                    borderBottom: i < arr.length - 1 ? '1px solid var(--line-soft)' : 'none',
-                  }}
-                >
-                  <dt className="mono" style={{ letterSpacing: '0.16em', textTransform: 'uppercase', fontSize: 11 }}>{term}</dt>
-                  <dd style={{ margin: 0, textAlign: 'right' }}>{value}</dd>
-                </div>
-              ))}
-            </dl>
-          </div>
-
-          <p className="kicker reveal" style={{ margin: 'clamp(56px,7vw,90px) 0 26px' }}>Architecture &amp; Tech Stack</p>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(250px,1fr))', gap: 20 }}>
-            {gostudy.stack.map((item) => (
-              <div className="card reveal" key={item.num}>
-                <p className="numeral" style={{ margin: '0 0 14px' }}>{item.num}</p>
-                <h4 style={{ fontSize: 21, marginBottom: 10 }}>{item.title}</h4>
-                <p className="mono" style={{ margin: 0, lineHeight: 1.7 }}>{item.body}</p>
-              </div>
-            ))}
-          </div>
-
-          <p className="kicker reveal" style={{ margin: 'clamp(56px,7vw,90px) 0 26px' }}>Key Features</p>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(280px,1fr))', gap: 20 }}>
-            {gostudy.features.map((item) => (
-              <div className="card reveal" key={item.title} style={{ display: 'flex', gap: 18, alignItems: 'flex-start' }}>
-                <span style={{ flex: 'none', width: 9, height: 9, marginTop: 9, border: '1px solid var(--gold)', transform: 'rotate(45deg)' }} />
-                <div>
-                  <h4 style={{ fontSize: 20, marginBottom: 8 }}>{item.title}</h4>
-                  <p className="mono" style={{ margin: 0, lineHeight: 1.7 }}>{item.body}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <p className="kicker reveal" style={{ margin: 'clamp(56px,7vw,90px) 0 26px' }}>Inside the App</p>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(210px,1fr))', gap: 'clamp(20px,3vw,44px)', maxWidth: 900 }}>
-            {gostudy.screens.map((screen) => (
-              <figure className="reveal" style={{ margin: 0 }} key={screen.src}>
-                <div className="phone">
-                  <div className="screen">
-                    <img src={screen.src} alt={screen.alt} />
-                  </div>
-                </div>
-                <figcaption className="mono" style={{ marginTop: 16, letterSpacing: '0.16em', textTransform: 'uppercase', fontSize: 11 }}>
-                  {screen.caption}
-                </figcaption>
-              </figure>
-            ))}
-          </div>
-
-          <div className="reveal" style={{ display: 'flex', flexWrap: 'wrap', gap: 16, marginTop: 'clamp(40px,5vw,64px)' }}>
-            <a href="#" className="gbtn">Launch App Demo</a>
-            <a href={gostudy.links.source} target="_blank" rel="noopener noreferrer" className="gbtn ghost">Source Code / Docs</a>
-          </div>
-        </div>
-      </section>
-
       <section id="contact" style={{ padding: 'clamp(80px,11vw,150px) clamp(20px,5vw,72px) 70px', background: 'linear-gradient(180deg,var(--ink-2),var(--ink))' }}>
         <div
           className="reveal"
@@ -388,7 +301,7 @@ export default function Home() {
             border: '1px solid var(--line)', background: 'linear-gradient(180deg,rgba(26,28,35,0.8),rgba(12,13,16,0.8))', backdropFilter: 'blur(8px)',
           }}
         >
-          <p className="kicker" style={{ margin: '0 0 20px' }}>Chapter IV — The Seal</p>
+          <p className="kicker" style={{ margin: '0 0 20px' }}>Chapter III — The Seal</p>
           <h2 style={{ fontSize: 'clamp(28px,3.8vw,46px)', marginBottom: 18 }}>Let&rsquo;s build something durable</h2>
           <p style={{ color: 'var(--silver)', maxWidth: 520, margin: '0 auto 40px' }}>
             Open to mobile engineering roles, contract work and collaborations where architecture matters as much as

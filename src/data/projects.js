@@ -1,5 +1,5 @@
-// Every project shown on the site — the Flagship section on the homepage and the
-// standalone /projects page both render off this list, so it's the single place
+// Every project shown on the site — the /projects list and each project's dedicated
+// /projects/:slug detail page both render off this list, so it's the single place
 // to add a new project.
 export const PROJECTS = [
   {
@@ -7,7 +7,7 @@ export const PROJECTS = [
     name: 'GoStudy',
     tagline: 'An all-in-one academic platform for university students',
     thumbnail: '/assets/gostudy-icon.svg',
-    status: 'In active release',
+    status: 'Live on Google Play',
     role: 'Sole engineer & designer',
     platform: 'Android & iOS — one Flutter codebase',
     architecture: 'Clean architecture, offline-first',
@@ -36,8 +36,8 @@ export const PROJECTS = [
     ],
     tags: ['Flutter', 'Dart', 'Supabase', 'Firebase', 'SQLite'],
     links: {
-      caseStudy: '/#flagship',
       source: 'https://github.com/ebongi',
+      playStore: 'https://play.google.com/store/apps/details?id=com.ebongsume.gostudy',
     },
   },
 ];
