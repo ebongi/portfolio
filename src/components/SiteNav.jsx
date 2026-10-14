@@ -28,17 +28,23 @@ export default function SiteNav({ navRef, links, theme, onToggleTheme }) {
         EBONG SUME
       </Link>
       <div style={{ display: 'flex', alignItems: 'center', gap: 'clamp(16px,2.4vw,34px)' }}>
-        {links.map((link) =>
-          link.to ? (
-            <Link key={link.label} to={link.to} className="mono" style={{ color: 'var(--silver)' }}>
+        {links.map((link) => {
+          const content = (
+            <>
+              {link.dot && <span style={{ display: 'inline-block', width: 6, height: 6, borderRadius: '50%', background: '#10B981', marginRight: 6 }} />}
               {link.label}
+            </>
+          );
+          return link.to ? (
+            <Link key={link.label} to={link.to} className="mono" style={{ color: 'var(--silver)', display: 'flex', alignItems: 'center' }}>
+              {content}
             </Link>
           ) : (
-            <a key={link.label} href={link.href} className="mono" style={{ color: 'var(--silver)' }}>
-              {link.label}
+            <a key={link.label} href={link.href} className="mono" style={{ color: 'var(--silver)', display: 'flex', alignItems: 'center' }}>
+              {content}
             </a>
-          )
-        )}
+          );
+        })}
         <button
           type="button"
           className="themeToggle"
