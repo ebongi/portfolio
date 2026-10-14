@@ -178,6 +178,7 @@ export default function Home() {
   const { theme, toggleTheme } = useTheme();
 
   const [selectedSkill, setSelectedSkill] = useState(null);
+  const [openService, setOpenService] = useState(null);
   const [form, setForm] = useState({ name: '', email: '', message: '' });
   const [formNote, setFormNote] = useState('');
 
@@ -206,8 +207,9 @@ export default function Home() {
         theme={theme}
         onToggleTheme={toggleTheme}
         links={[
+          { to: '/', label: 'Home', dot: true },
           { href: '#about', label: 'The Craft' },
-          { href: '#services', label: 'Services' },
+          { href: '#services', label: 'What I do' },
           { href: '#process', label: 'Process' },
           { href: '#why', label: 'Why Me' },
           { to: '/projects/gostudy', label: 'Flagship' },
@@ -246,18 +248,25 @@ export default function Home() {
           }}
         />
         <div style={{ maxWidth: 1000, margin: '0 auto', width: '100%' }}>
-          <p className="kicker reveal" style={{ margin: '0 0 26px' }}>Chapter I — Introduction</p>
-          <h1 className="reveal" style={{ fontSize: 'clamp(42px,7.4vw,96px)', letterSpacing: '0.02em', marginBottom: 22, color: '#F7F6F0' }}>Ebong Sume</h1>
-          <div className="reveal" style={{ display: 'flex', alignItems: 'center', gap: 20, marginBottom: 30 }}>
-            <span style={{ width: 56, height: 1, background: '#D4AF37', flex: 'none' }} />
-            <h2 style={{ fontFamily: 'var(--serif)', fontWeight: 300, fontStyle: 'italic', fontSize: 'clamp(20px,2.6vw,30px)', color: '#F7F6F0' }}>
-              Mobile Application &amp; Software Engineer
-            </h2>
-          </div>
-          <p className="reveal" style={{ maxWidth: 660, fontSize: 'clamp(17px,1.5vw,20px)', color: '#A0A5B5', margin: '0 0 44px' }}>
-            Building high-performance, cross-platform mobile apps with Flutter &amp; Dart, coupled with scalable database
-            architectures and clean software systems.
+          <p className="kicker reveal" style={{ margin: '0 0 20px', color: 'var(--cream)' }}>Hi, I&apos;m Ebong Sume</p>
+          <h1 className="reveal" style={{ fontSize: 'clamp(42px,7.4vw,90px)', letterSpacing: '0.02em', marginBottom: 20, color: '#F7F6F0' }}>Software Developer</h1>
+          <p className="reveal" style={{ maxWidth: 660, fontSize: 'clamp(17px,1.5vw,20px)', color: '#A0A5B5', margin: '0 0 32px', lineHeight: 1.6 }}>
+            Transforming ideas into interactive and seamless digital experiences with cutting-edge frontend and mobile engineering.
           </p>
+          <div className="reveal" style={{ display: 'flex', gap: 16, marginBottom: 36, alignItems: 'center' }}>
+            <a href="https://github.com/ebongi" target="_blank" rel="noopener noreferrer" className="gbtn ghost" style={{ padding: '9px 18px', fontSize: 12, display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+              GitHub
+            </a>
+            <a href="https://www.linkedin.com/in/ebong-sume-%F0%9F%87%A8%F0%9F%87%B2-4b0816298" target="_blank" rel="noopener noreferrer" className="gbtn ghost" style={{ padding: '9px 18px', fontSize: 12, display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+              LinkedIn
+            </a>
+            <a href="mailto:sumeebong7@gmail.com" className="gbtn ghost" style={{ padding: '9px 18px', fontSize: 12, display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+              Mail
+            </a>
+          </div>
           <div className="reveal" style={{ display: 'flex', flexWrap: 'wrap', gap: 16 }}>
             <Link to="/projects" className="gbtn">Explore My Work</Link>
             <Link to="/projects/gostudy" className="gbtn ghost">View GoStudy Flagship</Link>
@@ -380,27 +389,50 @@ export default function Home() {
         id="services"
         style={{ position: 'relative', padding: 'clamp(80px,11vw,150px) clamp(20px,5vw,72px)', background: 'var(--ink-2)' }}
       >
-        <div style={{ maxWidth: 1240, margin: '0 auto' }}>
-          <div className="chapterhead reveal" style={{ marginBottom: 18 }}>
-            <span className="numeral">III</span>
-            <h2 style={{ fontSize: 'clamp(30px,4.2vw,54px)' }}>Services &amp; Capabilities</h2>
-          </div>
-          <hr className="rule reveal" style={{ margin: '0 0 clamp(44px,5vw,70px)' }} />
-          <p className="reveal" style={{ maxWidth: 720, color: 'var(--silver)', fontSize: 'clamp(17px,1.4vw,19px)', margin: '0 0 clamp(48px,6vw,80px)' }}>
-            The work I take on end-to-end — from a native Android feature to a full SaaS product — and the disciplines
-            each one leans on.
-          </p>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(260px,1fr))', gap: 20 }}>
-            {SERVICES.map((item) => (
-              <Link to={`/services/${item.slug}`} className="card reveal" key={item.slug}>
-                <p className="numeral" style={{ margin: '0 0 14px' }}>{item.num}</p>
-                <h4 style={{ fontSize: 20, marginBottom: 10, color: 'var(--cream)' }}>{item.title}</h4>
-                <p className="mono" style={{ margin: 0, lineHeight: 1.7 }}>{item.body}</p>
-                <p className="mono" style={{ margin: '18px 0 0', color: 'var(--gold)', fontSize: 11, letterSpacing: '0.14em', textTransform: 'uppercase' }}>
-                  How I implement this &rarr;
-                </p>
-              </Link>
-            ))}
+        <div style={{ maxWidth: 1000, margin: '0 auto' }}>
+          <h2 className="reveal" style={{ fontSize: 'clamp(30px,4.2vw,50px)', marginBottom: 36, color: '#F7F6F0' }}>What I do?</h2>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+            {SERVICES.map((item) => {
+              const isOpen = openService === item.slug;
+              return (
+                <div
+                  key={item.slug}
+                  className="card reveal"
+                  style={{
+                    padding: '24px 28px',
+                    cursor: 'pointer',
+                    borderColor: isOpen ? 'var(--gold)' : 'var(--line)',
+                    background: isOpen ? 'rgba(212,175,55,0.03)' : 'var(--surf)',
+                    transition: 'all 0.25s ease',
+                  }}
+                  onClick={() => setOpenService(isOpen ? null : item.slug)}
+                >
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 20 }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+                      <span className="mono" style={{ color: 'var(--gold)', fontSize: 14 }}>{item.num}</span>
+                      <h4 style={{ fontSize: 20, margin: 0, color: 'var(--cream)' }}>{item.title}</h4>
+                    </div>
+                    <span style={{ transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.2s ease', color: 'var(--gold)' }}>
+                      &#9662;
+                    </span>
+                  </div>
+                  {isOpen && (
+                    <div style={{ marginTop: 20, paddingTop: 20, borderTop: '1px solid var(--line-soft)' }}>
+                      <p style={{ color: 'var(--silver)', margin: '0 0 16px', lineHeight: 1.7 }}>{item.body}</p>
+                      <p className="mono" style={{ color: 'var(--silver)', margin: '0 0 16px', fontSize: 13, lineHeight: 1.6 }}>{item.overview}</p>
+                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 16 }}>
+                        {item.tools.map((t) => (
+                          <span className="chip" key={t}>{t}</span>
+                        ))}
+                      </div>
+                      <Link to={`/services/${item.slug}`} className="gbtn ghost" style={{ padding: '8px 16px', fontSize: 11 }} onClick={(e) => e.stopPropagation()}>
+                        Read Full Detail &rarr;
+                      </Link>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
