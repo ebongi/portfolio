@@ -31,7 +31,6 @@ export default function ProjectDetail() {
         links={[
           { to: '/', label: 'Home' },
           { to: '/projects', label: 'Projects' },
-          { to: '/timeline', label: 'Timeline' },
           { href: '/#contact', label: 'Contact' },
         ]}
       />

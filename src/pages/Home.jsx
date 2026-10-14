@@ -212,7 +212,6 @@ export default function Home() {
           { href: '#why', label: 'Why Me' },
           { to: '/projects/gostudy', label: 'Flagship' },
           { to: '/projects', label: 'Projects' },
-          { to: '/timeline', label: 'Timeline' },
           { href: '#contact', label: 'Contact' },
         ]}
       />

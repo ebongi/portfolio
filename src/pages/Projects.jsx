@@ -24,7 +24,6 @@ export default function Projects() {
         links={[
           { to: '/', label: 'Home' },
           { href: '/#about', label: 'The Craft' },
-          { to: '/timeline', label: 'Timeline' },
           { href: '/#contact', label: 'Contact' },
         ]}
       />

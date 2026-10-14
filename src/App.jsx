@@ -3,7 +3,6 @@ import Home from './pages/Home.jsx';
 import Projects from './pages/Projects.jsx';
 import ProjectDetail from './pages/ProjectDetail.jsx';
 import ServiceDetail from './pages/ServiceDetail.jsx';
-import Timeline from './pages/Timeline.jsx';
 import './App.css';
 
 export default function App() {
@@ -13,7 +12,6 @@ export default function App() {
       <Route path="/projects" element={<Projects />} />
       <Route path="/projects/:slug" element={<ProjectDetail />} />
       <Route path="/services/:slug" element={<ServiceDetail />} />
-      <Route path="/timeline" element={<Timeline />} />
       <Route path="*" element={<Home />} />
     </Routes>
   );

@@ -32,7 +32,6 @@ export default function Footer() {
             <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
               <Link to="/" className="mono" style={{ color: 'var(--silver)' }}>Home</Link>
               <Link to="/projects" className="mono" style={{ color: 'var(--silver)' }}>Projects</Link>
-              <Link to="/timeline" className="mono" style={{ color: 'var(--silver)' }}>Timeline</Link>
               <a href="/#contact" className="mono" style={{ color: 'var(--silver)' }}>Contact</a>
             </div>
           </div>
