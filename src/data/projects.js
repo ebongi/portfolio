@@ -30,8 +30,12 @@ export const PROJECTS = [
     ],
     screens: [
       { src: '/assets/loza-welcome.png', alt: 'Loza welcome screen', caption: 'Welcome — haute couture branding & luxury entry' },
+      { src: '/assets/loza-login.png', alt: 'Loza login screen', caption: 'Login — welcome back authentication' },
+      { src: '/assets/loza-signup.png', alt: 'Loza signup screen', caption: 'Sign Up — personal details & onboarding' },
       { src: '/assets/loza-home.png', alt: 'Loza home store view', caption: 'Store — categories, collections & New In' },
+      { src: '/assets/loza-catalog.png', alt: 'Loza catalog navigation drawer', caption: 'Navigation — apparel categories & filters' },
       { src: '/assets/loza-product.png', alt: 'Loza product detail screen', caption: 'Product — sizing, color & purchase flow' },
+      { src: '/assets/loza-checkout.png', alt: 'Loza checkout screen', caption: 'Checkout — summary, shipping & payment' },
     ],
     tags: ['Flutter', 'Dart', 'UI/UX Design', 'E-Commerce'],
     links: {
