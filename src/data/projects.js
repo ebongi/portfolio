@@ -3,6 +3,42 @@
 // to add a new project.
 export const PROJECTS = [
   {
+    slug: 'loza',
+    name: 'Loza',
+    tagline: 'A sophisticated e-commerce mobile application for luxury fashion and haute couture',
+    thumbnail: '/assets/loza-home.png',
+    status: 'Personal Project',
+    role: 'Sole designer & engineer',
+    platform: 'Cross-platform mobile app',
+    architecture: 'Clean architecture, responsive UI',
+    overview:
+      'Loza is a high-end fashion and lifestyle e-commerce application designed to provide a luxurious, ' +
+      'curated shopping experience for haute couture, vintage sophistication, and bespoke clothing. ' +
+      'Featuring smooth category browsing, immersive high-resolution product showcases, and a streamlined ' +
+      'checkout and authentication flow, Loza blends minimalist luxury aesthetics with high-performance mobile engineering.',
+    stack: [
+      { num: '01', title: 'Immersive UI / UX', body: 'Minimalist luxury aesthetic, dark-mode styling, smooth typography, and intuitive navigation across apparel collections.' },
+      { num: '02', title: 'Catalog & Categories', body: 'Structured shopping by category (Dresses, Jackets, Bags, Trousers, Shoes) with curated new collections.' },
+      { num: '03', title: 'Product Customization', body: 'Detailed item showcases with size and color selectors, premium fabric details, and instant cart management.' },
+      { num: '04', title: 'Secure Authentication', body: 'Seamless sign-up and login flows, including email and social authentication integration.' },
+    ],
+    features: [
+      { title: 'Curated Collections', body: 'Showcases seasonal haute couture drops and editorial styling ("Less is Always More").' },
+      { title: 'Category Navigation', body: 'Quick filtering across dresses, outerwear, footwear, and accessories.' },
+      { title: 'Product Details', body: 'High-definition imagery with sizing charts, color swatches, and direct purchase actions.' },
+      { title: 'Streamlined Auth', body: 'Polished onboarding and account creation with personal details management.' },
+    ],
+    screens: [
+      { src: '/assets/loza-welcome.png', alt: 'Loza welcome screen', caption: 'Welcome — haute couture branding & luxury entry' },
+      { src: '/assets/loza-home.png', alt: 'Loza home store view', caption: 'Store — categories, collections & New In' },
+      { src: '/assets/loza-product.png', alt: 'Loza product detail screen', caption: 'Product — sizing, color & purchase flow' },
+    ],
+    tags: ['Flutter', 'Dart', 'UI/UX Design', 'E-Commerce'],
+    links: {
+      source: 'https://github.com/ebongi',
+    },
+  },
+  {
     slug: 'gostudy',
     name: 'GoStudy',
     tagline: 'An all-in-one academic platform for university students',
